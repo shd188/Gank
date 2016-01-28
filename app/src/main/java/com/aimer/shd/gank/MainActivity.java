@@ -8,16 +8,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.aimer.shd.gank.adapter.GankAdapter;
 import com.aimer.shd.gank.base.BaseRecyclerViewAdapter;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.BindColor;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -32,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     CoordinatorLayout mDrawerLayout;
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    @BindColor(R.color.colorPrimaryDark)
+    int colorPrimaryDark;
+
     private LinearLayoutManager layoutManager;
     private List<String> dataList;
     private boolean refreshing = false;
@@ -45,6 +52,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolBar);
+
+        // 创建状态栏的管理实例
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        // 激活状态栏设置
+        tintManager.setStatusBarTintEnabled(true);
+        // 激活导航栏设置
+        tintManager.setNavigationBarTintEnabled(true);
+
+        tintManager.setStatusBarTintColor(colorPrimaryDark);
+
 
         mSwipeRefresh.setOnRefreshListener(this);
         layoutManager = new LinearLayoutManager(MainActivity.this);
@@ -129,5 +146,21 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onRefresh() {
         mAdapter.addDataFirst(getRefreshData());
         mSwipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Toast.makeText(MainActivity.this, "setting", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 }
