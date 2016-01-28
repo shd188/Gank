@@ -8,24 +8,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Toast;
+
+import com.aimer.shd.gank.adapter.GankAdapter;
+import com.aimer.shd.gank.base.BaseRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    @InjectView(R.id.mSwipeRefresh)
+    @Bind(R.id.mSwipeRefresh)
     SwipeRefreshLayout mSwipeRefresh;
-    @InjectView(R.id.mToolBar)
+    @Bind(R.id.mToolBar)
     Toolbar mToolBar;
-    @InjectView(R.id.mAppBar)
+    @Bind(R.id.mAppBar)
     AppBarLayout mAppBar;
-    @InjectView(R.id.drawer_layout)
+    @Bind(R.id.drawer_layout)
     CoordinatorLayout mDrawerLayout;
-    @InjectView(R.id.recyclerView)
+    @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
     private LinearLayoutManager layoutManager;
     private List<String> dataList;
@@ -37,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         setSupportActionBar(mToolBar);
 
@@ -48,6 +53,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mAdapter = new GankAdapter(this, dataList);
         mRecyclerView.setAdapter(mAdapter);
 
+        mAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<String>() {
+            @Override
+            public void onItemClick(View view, int position, String bean) {
+                Toast.makeText(MainActivity.this, "bean--" + bean, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position, String bean) {
+
+            }
+
+
+        });
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -99,10 +117,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         return list;
     }
 
+    public List<String> getRefreshData() {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            list.add(String.valueOf(i + 1));
+        }
+        return list;
+    }
+
     @Override
     public void onRefresh() {
-        dataList.add(0, "new");
-        mAdapter.notifyDataSetChanged();
+        mAdapter.addDataFirst(getRefreshData());
         mSwipeRefresh.setRefreshing(false);
     }
 }
