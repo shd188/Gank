@@ -1,6 +1,7 @@
 package com.aimer.shd.gank;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.orhanobut.logger.AndroidLogTool;
 import com.orhanobut.logger.LogLevel;
@@ -13,9 +14,11 @@ import com.orhanobut.logger.Logger;
 public class MyApplication extends Application {
 
     private static final String TAG="Gank";
+    public static Context mContext;
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext=this.getApplicationContext();
         Logger.init(TAG)                 // default PRETTYLOGGER or use just init()
                 .methodCount(3)                 // default 2
                 .hideThreadInfo()               // default shown
