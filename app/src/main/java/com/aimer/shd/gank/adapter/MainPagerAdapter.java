@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return titles.size();
+        return fragments.size();
     }
 
     @Override
@@ -42,5 +44,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     public void addFragment(Fragment fragment, String title){
         fragments.add(fragment);
         titles.add(title);
+        Logger.d("title--"+title);
     }
 }
