@@ -44,6 +44,5 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     public void addFragment(Fragment fragment, String title){
         fragments.add(fragment);
         titles.add(title);
-        Logger.d("title--"+title);
     }
 }

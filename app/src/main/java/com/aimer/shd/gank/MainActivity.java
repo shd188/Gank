@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViewPager() {mPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
         mPagerAdapter.addFragment(ArticleFragment.getInstance(getString(R.string.Android)), getString(R.string.Android));
-        mPagerAdapter.addFragment(ArticleFragment.getInstance(getString(R.string.IOS)), getString(R.string.IOS));
+        mPagerAdapter.addFragment(ArticleFragment.getInstance(getString(R.string.iOS)), getString(R.string.iOS));
         mPagerAdapter.addFragment(ArticleFragment.getInstance(getString(R.string.resource)), getString(R.string.resource));
         mPagerAdapter.addFragment(ArticleFragment.getInstance(getString(R.string.recommend)), getString(R.string.recommend));
         mViewPager.setAdapter(mPagerAdapter);

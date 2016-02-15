@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aimer.shd.gank.adapter.CommonItemAdapter;
+import com.aimer.shd.gank.adapter.GankAdapter;
+import com.aimer.shd.gank.api.ApiImp;
+import com.aimer.shd.gank.api.RequestCallbackListener;
 import com.aimer.shd.gank.model.Gank;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +32,10 @@ public class ArticleFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Bind(R.id.swipeRefresh_article_fragment)
     SwipeRefreshLayout mSwipeRefresh;
     private String mType;
-    private CommonItemAdapter mCommonItemAdapter;
+    private GankAdapter mGankAdapter;
     private List<Gank> mGankList = new ArrayList<>();
+    private ApiImp api;
+    private int curPage = 1;
 
     public static ArticleFragment getInstance(String type) {
         Bundle bundle = new Bundle();
@@ -44,7 +49,8 @@ public class ArticleFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mType = getArguments().getString(Config.type);
-        mCommonItemAdapter = new CommonItemAdapter(getActivity(), mGankList);
+
+        api = new ApiImp();
     }
 
     @Override
@@ -52,11 +58,31 @@ public class ArticleFragment extends Fragment implements SwipeRefreshLayout.OnRe
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         setupBaseView();
+        loadData();
+    }
+
+    private void loadData() {
+        api.getGanks(mType,curPage, new RequestCallbackListener() {
+
+            @Override
+            public void onSuccess(List<Gank> lists) {
+                for (Gank gank : lists) {
+                    mGankList.add(gank);
+                }
+                mGankAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure() {
+                Logger.d("Failure");
+            }
+        });
     }
 
     private void setupBaseView() {
+        mGankAdapter = new GankAdapter(getActivity(), mGankList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
-        mRecyclerView.setAdapter(mCommonItemAdapter);
+        mRecyclerView.setAdapter(mGankAdapter);
         mRecyclerView.addOnScrollListener(mOnScrollListener);
         mSwipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorAccent));
         mSwipeRefresh.setOnRefreshListener(this);

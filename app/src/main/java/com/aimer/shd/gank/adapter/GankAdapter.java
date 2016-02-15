@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.aimer.shd.gank.R;
 import com.aimer.shd.gank.base.BaseRecyclerViewAdapter;
 import com.aimer.shd.gank.base.BaseRecyclerViewHolder;
+import com.aimer.shd.gank.model.Gank;
 
 import java.util.List;
 
@@ -17,9 +18,9 @@ import butterknife.ButterKnife;
 /**
  * Created by shd on 2016/1/27.
  */
-public class GankAdapter extends BaseRecyclerViewAdapter<String> {
+public class GankAdapter extends BaseRecyclerViewAdapter<Gank> {
 
-    public GankAdapter(Context context, List<String> list) {
+    public GankAdapter(Context context, List<Gank> list) {
         super(context, list);
     }
 
@@ -32,7 +33,7 @@ public class GankAdapter extends BaseRecyclerViewAdapter<String> {
     @Override
     protected void setData(BaseRecyclerViewHolder holder, final int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.mTvItem.setText(mList.get(position));
+        viewHolder.mTvItem.setText(mList.get(position).getDesc());
         if (onItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

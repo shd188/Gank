@@ -2,7 +2,9 @@ package com.aimer.shd.gank.net;
 
 import android.util.Log;
 
+import com.aimer.shd.gank.api.Result;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -25,7 +27,7 @@ import okhttp3.Response;
 public class OkHttpUtil {
     private static OkHttpUtil mInstance;
     private OkHttpClient mOkHttpClient;
-    public static final String URL = "http://api.91yunxiao.com/api/v2/io";
+    public static final String URL = "http://gank.avosapps.com/api/data/";
     //参数类型
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
 //    final MediaType MEDIA_TYPE_PNG=MediaType.parse(AppConstant.arrImages.get(i).getMediaType());
@@ -45,13 +47,16 @@ public class OkHttpUtil {
         return mInstance;
     }
 
-    public Response get() throws IOException {
+    public Result get(String type, int page) throws IOException {
         Request request = new Request.Builder()
-                .url(URL)
+                .url(URL + type + "/10/" + page)
                 .build();
         Call call = mOkHttpClient.newCall(request);
         Response execute = call.execute();
-        return execute;
+        Gson gson = new Gson();
+        String result = execute.body().string();
+        return gson.fromJson(result, new TypeToken<Result>() {
+        }.getType());
     }
 
     public <T> T post(Map<String, Object> map, Type type) throws IOException {
@@ -62,6 +67,7 @@ public class OkHttpUtil {
             String result = execute.body().string();
             Log.d("Aimer", result);
             Gson gson = new Gson();
+
             return gson.fromJson(result, type);
 
         } else {
@@ -110,6 +116,7 @@ public class OkHttpUtil {
         if (map == null) {
             map = new HashMap<>();
         }
+
         FormBody.Builder builder = new FormBody.Builder();
         for (String key : map.keySet()) {
             builder.add(key, String.valueOf(map.get(key)));

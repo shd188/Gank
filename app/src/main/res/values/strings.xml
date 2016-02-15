@@ -7,7 +7,7 @@
     <string name="action_settings">Settings</string>
     <string name="type">type</string>
     <string name="Android">Android</string>
-    <string name="IOS">IOS</string>
+    <string name="iOS">iOS</string>
     <string name="resource">拓展资源</string>
     <string name="recommend">瞎推荐</string>
 </resources>
