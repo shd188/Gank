@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
  */
 public class GankAdapter extends BaseRecyclerViewAdapter<Gank> {
 
+
     public GankAdapter(Context context, List<Gank> list) {
         super(context, list);
     }
@@ -33,32 +34,28 @@ public class GankAdapter extends BaseRecyclerViewAdapter<Gank> {
     @Override
     protected void setData(BaseRecyclerViewHolder holder, final int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.mTvItem.setText(mList.get(position).getDesc());
+        viewHolder.mTitleItem.setText(mList.get(position).getDesc());
+        viewHolder.mDateItem.setText(mList.get(position).getCreatedAt());
+        viewHolder.mUserItem.setText(mList.get(position).getWho());
         if (onItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onItemClickListener.onItemClick(viewHolder.itemView, position, mList.get(position));
-
                 }
             });
-
-            viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    onItemClickListener.onItemLongClick(viewHolder.itemView, position, mList.get(position));
-                    return true;
-                }
-            });
-
 
         }
 
     }
 
     static class ViewHolder extends BaseRecyclerViewHolder {
-        @Bind(R.id.tv_item)
-        TextView mTvItem;
+        @Bind(R.id.title_item)
+        TextView mTitleItem;
+        @Bind(R.id.user_item)
+        TextView mUserItem;
+        @Bind(R.id.date_item)
+        TextView mDateItem;
 
         ViewHolder(View view) {
             super(view);

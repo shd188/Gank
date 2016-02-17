@@ -10,4 +10,5 @@
     <string name="iOS">iOS</string>
     <string name="resource">拓展资源</string>
     <string name="recommend">瞎推荐</string>
+    <string name="url">url</string>
 </resources>

@@ -18,6 +18,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
     protected List<T> mList = new ArrayList<>();
     protected LayoutInflater mInflater;
     public OnItemClickListener<T> onItemClickListener;
+    private OnItemLongClickListener<T> onItemLongClickListener;
 
     public BaseRecyclerViewAdapter(Context context, List<T> list) {
         this.mContext = context;
@@ -80,14 +81,14 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     public interface OnItemClickListener<T> {
         void onItemClick(View view, int position, T bean);
-
-        void onItemLongClick(View view, int position, T bean);
-
-
     }
-
+    public interface OnItemLongClickListener<T> {
+        void onItemClick(View view, int position, T bean);
+    }
     public void setOnItemClickListener(OnItemClickListener<T> listener) {
         this.onItemClickListener = listener;
     }
-
+    public void setOnItemLongClickListener(OnItemLongClickListener<T> listener) {
+        this.onItemLongClickListener = listener;
+    }
 }
