@@ -1,55 +1,44 @@
 package com.aimer.shd.gank.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.aimer.shd.gank.R;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.aimer.shd.gank.base.ToolbarActivity;
 
 import butterknife.Bind;
-import butterknife.BindColor;
 import butterknife.ButterKnife;
 
-public class WebViewActivity extends AppCompatActivity {
+public class WebViewActivity extends ToolbarActivity {
+
 
     @Bind(R.id.web)
     WebView mWeb;
-    @Bind(R.id.toolbar_web)
-    Toolbar mToolbarWeb;
-    @BindColor(R.color.colorPrimaryDark)
-    int colorPrimaryDark;
     private String url;
+
+    @Override
+    protected int provideContentViewId() {
+        return R.layout.activity_web_view;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web_view);
         ButterKnife.bind(this);
         url = getIntent().getStringExtra(getString(R.string.url));
-        initView();
         initWebView();
     }
 
-    private void initView() {
-        setSupportActionBar(mToolbarWeb);
-        SystemBarTintManager manager=new SystemBarTintManager(this);
-        manager.setStatusBarTintEnabled(true);
-        manager.setNavigationBarTintEnabled(true);
-        manager.setStatusBarTintColor(colorPrimaryDark);
-        mToolbarWeb.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    @Override
+    protected boolean canBack() {
+        return true;
     }
+
+
 
     private void initWebView() {
         WebSettings webSetting = mWeb.getSettings();

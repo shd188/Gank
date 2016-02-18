@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,18 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.WebViewActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_web"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:navigationIcon="?attr/homeAsUpIndicator"/>
-    </android.support.design.widget.AppBarLayout>
+    <include layout="@layout/include_toolbar"/>
 
     <WebView
         android:id="@+id/web"
